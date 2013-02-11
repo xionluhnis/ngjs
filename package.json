@@ -11,8 +11,9 @@
     "jade": "*",
     "less": "*",
     "node-markdown": "*",
+    "openid": "*",
     "redis": "*",
     "connect-redis": "*",
-    "connect-assets": "*",
+    "connect-assets": "*"
   }
 }

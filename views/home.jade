@@ -1,0 +1,12 @@
+!!!
+html(lang="en", ng-app="Gallery", class="ng-app:Gallery", xmlns:ng="http://angularjs.org")#ng-app
+  head
+    title Photography galleries of Alexandre Kaspar
+    meta(http-equiv="Content-Type", content="text/html; charset=UTF-8")
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    link(href='/images/favicon.ico', rel='icon', type='image/x-icon')
+    != assets.css('app')
+  body(ng-controller="AppController")
+    #wrapper(ng-include="getViewTemplate()")
+
+    != assets.js('app')

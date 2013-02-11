@@ -1,0 +1,3 @@
+[submodule "public/libs/zigfy"]
+	path = public/libs/zigfy
+	url = https://github.com/xionluhnis/zigfy.git

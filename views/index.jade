@@ -1,0 +1,12 @@
+#view(ng-controller="IndexController")
+  #background
+    img(ng-repeat="img in images", ng-src="{{img}}", ng-finally="createBg()")
+
+  #cover
+
+  #index
+    h1 Gallery {{path}}
+    a.back(href="..") ⇖ Back
+    ul
+      li(ng-repeat="route in routes")
+        a(ng-href="{{route.url}}") {{route.name}}

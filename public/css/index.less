@@ -1,0 +1,62 @@
+#wrapper {
+  #view {
+    #background, #cover{
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    #background {
+      z-index: 1;
+      background: white url(../images/loading.gif) center center no-repeat;
+      &.zigfy-loaded {
+        background: transparent;
+      }
+
+      img {
+        position: absolute;
+        display: none;
+        &.first {
+          display: block;
+        }
+      }
+    }
+    #cover {
+      background: url(../images/raster.png);
+      z-index: 2;
+    }
+    #index {
+      font-family: Tahoma, sans-serif;
+      position: absolute;
+      top: 50px;
+      right: 80px;
+      width: 40%;
+
+      border-top: 5px solid rgb(48, 169, 241);
+      padding: 0 20px 20px;
+      color: white;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 3;
+
+      ul {
+        list-style: none;
+        li {
+          display: inline-block;
+          padding: 5px;
+          a {
+            display: block;
+            color: rgb(48, 169, 241);
+            text-decoration: none;
+            border-bottom: 1px dotted white;
+            &:hover {
+              color: white;
+              background: rgb(48, 169, 241);
+            }
+          }
+        }
+      }
+    }
+  }
+}

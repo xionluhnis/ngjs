@@ -1,0 +1,7 @@
+#view(ng-controller="GalleryController")
+  #gallery(ng-class="{withContent: !!content}")
+    img(ng-repeat="img in images", ng-class="{first: $first, last: $last}", ng-src="{{img}}", ng-finally="createGallery()")
+
+  #contentwrap
+    #content(ng-bind-html="content", ng-show="!!content")
+  a.back.g(href="..") ⇖ Back

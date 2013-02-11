@@ -3,8 +3,10 @@
 // done only once when loading the app
 $(function () {
   $(document).keypress(function (event) {
-    if (event.which == 104) {
+    if (event.which == 104) { // H
       $('#index').fadeToggle('slow');
+    } else if(event.which == 101) { // E
+      $('#auth').fadeToggle('slow');
     }
   });
 });
@@ -97,7 +99,14 @@ function GalleryController($scope, $routeParams, $location, Gallery, Metadata) {
 }
 GalleryController.$inject = ['$scope', '$routeParams', '$location', 'Gallery', 'Metadata'];
 
+function AuthController($scope, $location) {
+  $scope.edit = function(){
+    $location.path('/edit' + $location.path());
+  };
+}
+AuthController.$inject = ['$scope', '$location'];
+
 function NotFoundController($scope, $routeParams, $location) {
-  $scope.path = $location.path;
+  $scope.path = $location.path();
 }
 NotFoundController.$inject = ['$scope', '$routeParams', '$location'];

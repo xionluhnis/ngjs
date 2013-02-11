@@ -6,6 +6,7 @@ html, body {
 
 body {
   background: #eff5f5;
+  font-family: Tahoma, sans-serif, Arial;
 
   a.back {
     position: absolute;
@@ -18,6 +19,25 @@ body {
     &:hover {
       background: gray;
       color: white;
+    }
+  }
+  #auth {
+    z-index: 1000;
+    position: absolute;
+    display: none;
+    bottom: 0px;
+    right: 0px;
+    a {
+      display: block;
+      padding: 5px 10px;
+      background: rgba(255, 0, 0, 0.2);
+      *background: red;
+      color: white;
+      text-decoration: none;
+      &:hover {
+        background: lighten(red, 20%);
+        color: white;
+      }
     }
   }
 }

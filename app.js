@@ -64,6 +64,8 @@ var rx = function(body){
 
 // - base and auth
 app.get(rx('/?'), router.index);
+app.all(app.util.prefix + '/auth', auth.auth);
+app.all(app.util.prefix + '/auth/callback', auth.callback);
 
 // - index structure
 var route_rest_index = require('./routes/rest-index.js');

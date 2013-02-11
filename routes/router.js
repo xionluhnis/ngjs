@@ -112,10 +112,10 @@ module.exports = {
    */
   parse: function (routeStr, callback) {
     // is the route already cached?
-    var type = routeCache[routeStr];
-    if (type) {
+    var itype = routeCache[routeStr];
+    if (itype) {
       callback(null, {
-        type: type,
+        type: itype,
         route: routeStr,
         dir: app.util.publicDir + routeStr
       });
@@ -274,7 +274,10 @@ module.exports = {
       }
     }
     res.render(view + '.jade', {
-      auth: false,
+      auth: {
+        identity: req.session ? req.session.identity : null,
+        valid: req.session && req.session.authenticated
+      },
       path: req.path,
       query: req.query,
       route: req.viewRoute

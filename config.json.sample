@@ -1,13 +1,14 @@
 module.exports = {
   port: process.env.PORT || 3000,
   prefix: process.env.PREFIX || '',
-  public: 'public',
+  public: process.env.PUBLIC || 'public',
   redis: {
-    port: process.env.REDIS_PORT,
-    host: process.env.REDIS_HOST,
+    port: process.env.REDIS_PORT || '127.0.0.1',
+    host: process.env.REDIS_HOST || 6379,
     database: process.env.REDIS_DB || 0
   },
-  secrets: {
-    session: '^auth-session-abcd$'
+  session: {
+    prefix: process.env.SESSION_PREFIX || '',
+    secret: '^auth-session-abcd$'
   }
 };

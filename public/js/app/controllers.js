@@ -100,11 +100,23 @@ function GalleryController($scope, $routeParams, $location, Gallery, Metadata) {
 GalleryController.$inject = ['$scope', '$routeParams', '$location', 'Gallery', 'Metadata'];
 
 function AuthController($scope, $location) {
-  $scope.edit = function(){
-    $location.path('/edit' + $location.path());
+  // XXX instead of going back to /home with the /edit/.../view.html being served,
+  //     open directly the view in a special #auth div#edit
+  //     with ng-bind-html="contentFrom('/edit/.../view.html')"
+  $scope.editToggle = function(){
+    $scope.editing = !$scope.editing;
+    if(!$scope.$$phase) $scope.$digest();
+  };
+  $scope.getEditTemplate = function(){
+    return '/edit' + $location.path() + 'view.html';
   };
 }
 AuthController.$inject = ['$scope', '$location'];
+
+function EditController($scope, $location) {
+  $scope.path = $location.path();
+}
+EditController.$inject = ['$scope', '$location'];
 
 function NotFoundController($scope, $routeParams, $location) {
   $scope.path = $location.path();

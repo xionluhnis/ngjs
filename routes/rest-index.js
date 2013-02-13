@@ -23,7 +23,7 @@ module.exports = {
    * Extract random images from a gallery
    */
   findGalleryImages: function (galleryRoute, limit, callback) {
-    var imgDir = path.join(app.util.publicDir + galleryRoute, 'images');
+    var imgDir = path.join(app.conf.publicDir + galleryRoute, 'images');
     fs.readdir(imgDir, function(err, files){
       if(err){
         callback(err);
@@ -135,9 +135,9 @@ module.exports = {
               if (err) cb(err);
               else cb(null, {
                 name: fname,
-                url: app.util.prefix + dirRoute,
+                url: app.conf.prefix + dirRoute,
                 images: images.map(function(imgRoute){
-                  return app.util.prefix + imgRoute;
+                  return app.conf.prefix + imgRoute;
                 })
               });
             });

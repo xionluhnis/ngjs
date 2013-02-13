@@ -1,0 +1,56 @@
+var path = require('path');
+
+module.exports = {
+  /**
+   * Server port to listen
+   */
+  port: process.env.PORT || 3000,
+
+  /**
+   * Gallery prefix (without ending /)
+   */
+  prefix: process.env.PREFIX || '',
+
+  /**
+   * Absolute directory for public data
+   */
+  publicDir: path.join(__dirname, process.env.PUBLIC || 'public'),
+
+  /**
+   * Absolute directory of the views
+   */
+  viewsDir: path.join(__dirname, process.env.VIEWS || 'views'),
+
+  /**
+   * Redis configuration
+   */
+  redis: {
+    /**
+     * Redis port
+     */
+    port: process.env.REDIS_PORT || 6379,
+    /**
+     * Redis host
+     */
+    host: process.env.REDIS_HOST || '127.0.0.1',
+    /**
+     * Redis database index
+     */
+    db: process.env.REDIS_DB || 0
+  },
+  /**
+   * Session configuration
+   */
+  session: {
+    /**
+     * Session prefix
+     */
+    prefix: process.env.SESSION_PREFIX || 'ngjs.sess:',
+    /**
+     * Session secret
+     */
+    secret: 'mygreatsecret'
+
+    // redefine port / host / db for RedisStore to overwrite conf.redis
+  }
+};

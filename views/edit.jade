@@ -1,0 +1,9 @@
+.view(ng-controller="EditController")
+  h1
+    | Edit [
+    span
+      = path.substring(6, path.length - 10)
+    | ]
+  textarea 
+  button Save
+  button Delete

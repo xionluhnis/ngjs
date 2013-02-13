@@ -24,7 +24,7 @@ var exclude = {
 var dirNameRx = /[0-9a-zA-Z]+[0-9a-zA-Z_\\-\\.]*/;
 
 // creating initial routing information (synchronously)
-var baseDir = app.util.publicDir;
+var baseDir = app.conf.publicDir;
 console.log(GRAY + 'Creating routing in %s' + RESET, baseDir);
 var routeStack = [{
   route: '/',
@@ -117,7 +117,7 @@ module.exports = {
       callback(null, {
         type: itype,
         route: routeStr,
-        dir: app.util.publicDir + routeStr
+        dir: app.conf.publicDir + routeStr
       });
       return;
     }
@@ -130,7 +130,7 @@ module.exports = {
 
     // we rebuild it to check its validity
     var route = '/';
-    var dir = app.util.publicDir;
+    var dir = app.conf.publicDir;
     // computation of the route
     var tokens = routeStr.substring(1, routeStr.length - 1).split('/');
     for (var i = 0; i < tokens.length; ++i) {
@@ -217,6 +217,7 @@ module.exports = {
    * Index or gallery routing
    */
   route: function (req, res) {
+    console.log('Route ', req.params);
     var route = req.params[0];
     if (!route) {
       res.send(500, 'Invalid route');
@@ -233,7 +234,7 @@ module.exports = {
 
     // not in the cache
     // is it a valid route?
-    var baseDir = app.util.publicDir + route;
+    var baseDir = app.conf.publicDir + route;
     fs.exists(baseDir, function (exists) {
       if (!exists) {
         // we go to the "not found" page
@@ -260,16 +261,31 @@ module.exports = {
   },
 
   /**
+   * Page editing
+   */
+  edit: function (req, res) {
+    var route = req.params[0];
+    if(!route){
+      res.send(500, 'Required route is missing!');
+    }else{
+      req.params[0] = 'edit';
+      req.viewRoute = '/edit' + req.params[0];
+      module.exports.jade(req, res);
+    }
+  },
+
+  /**
    * Some random view (or something else)
    */
   jade: function (req, res, next) {
+    console.log('Params: ', req.params);
     // do we serve the template view or the base with routing info?
     var view = req.params[0];
     if (req.path.charAt(req.path.length - 1) == '/') {
       view = 'home';
       // checking the viewRoute parameter
       if (!req.viewRoute) {
-        res.redirect(app.util.prefix + '/');
+        res.redirect(app.conf.prefix + '/');
         return;
       }
     }

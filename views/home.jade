@@ -10,5 +10,8 @@ html(lang="en", ng-app="Gallery", class="ng-app:Gallery", xmlns:ng="http://angul
     #wrapper(ng-include="getViewTemplate()")
     - if(auth.valid)
       #auth(ng-controller="AuthController")
-        a(ng-click="edit()") Edit
+        a.toggleEdit(ng-click="editToggle()") Edit
+        #page(ng:switch="editing", ng-show="editing")
+          .page(ng:switch-when="true", ng-include="getEditTemplate()")
+
     != assets.js('app')

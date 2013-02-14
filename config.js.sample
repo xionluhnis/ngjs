@@ -22,6 +22,16 @@ module.exports = {
   viewsDir: path.join(__dirname, process.env.VIEWS || 'views'),
 
   /**
+   * Authentication configuration
+   */
+  auth: {
+    /**
+     * OpenID URL (identity)
+     */
+    openid: 'http://openid.server.com',
+  },
+
+  /**
    * Redis configuration
    */
   redis: {

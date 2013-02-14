@@ -9,7 +9,6 @@ var RESET = app.util.RESET;
 // auth openid service
 // @see https://github.com/havard/node-openid
 // @see https://github.com/bnoguchi/everyauth
-var OPENID_URL = 'http://openid.wox-xion.ch';
 var rp;
 
 // filters
@@ -36,7 +35,7 @@ module.exports = {
       var url = req.protocol + '://' + req.host + (port == '80' ? '' : ':' + port) + '/auth/callback';
       rp = new openid.RelyingParty(url, null, false, false, []);
     }
-    rp.authenticate(OPENID_URL, false, function(err, authURL){
+    rp.authenticate(app.conf.auth.openid, false, function(err, authURL){
       if(err) res.send(500, 'Error: ', err);
       else if(!authURL) res.send(500, 'Authentication failed.');
       else res.redirect(authURL);

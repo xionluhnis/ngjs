@@ -25,6 +25,7 @@ module.exports = {
     // authenticated requests are fine of course!
     else if(req.session.identity && req.session.authenticated) next();
     else {
+      console.log('session: ', req.session);
       // require authentication for anything else
       res.redirect('/auth');
     }
@@ -52,7 +53,7 @@ module.exports = {
         // it worked!
         console.log(BLUE + 'Auth. Success: ' + RESET, result);
         // we save it in the session
-        req.session.authURL = OPENID_URL;
+        req.session.authURL = app.conf.auth.openid;
         req.session.identity = result.claimedIdentifier;
         req.session.authenticated = true;
         res.redirect('/');

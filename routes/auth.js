@@ -18,6 +18,7 @@ var authRx = new RegExp('^/auth');
 // module
 module.exports = {
   check: function (req, res, next) {
+    console.log(BLUE + 'session: %s' + RESET, JSON.stringify(req.session));
     // get requests are fine (except for modificaiton)
     if (req.method == 'GET' && !editRx.test(req.path)) next();
     // auth requests are fine too!
@@ -25,7 +26,6 @@ module.exports = {
     // authenticated requests are fine of course!
     else if(req.session.identity && req.session.authenticated) next();
     else {
-      console.log('session: ', req.session);
       // require authentication for anything else
       res.redirect('/auth');
     }

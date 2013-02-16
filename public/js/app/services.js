@@ -76,13 +76,24 @@ angular.module('GalleryServices', ['ngResource'])
     }
   });
 
+  var unfold = function(cb){
+    return function(result){
+      if(result && result.data) cb(result.data);
+      else cb();
+    };
+  };
+
   Metadata.getContent = function(route, cb, err){
     return Metadata.fetch({
       route: route
-    }, function(result){
-      if(result && result.data) cb(result.data);
-      else cb();
-    }, err);
+    }, unfold(cb), err);
+  };
+
+  Metadata.getRawContent = function(route, cb, err){
+    return Metadata.fetch({
+      route: route,
+      format: 'raw'
+    }, unfold(cb), err);
   };
 
   return Metadata;

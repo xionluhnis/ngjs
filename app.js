@@ -23,8 +23,8 @@ app.configure(function () {
     key: 'sessionid',
     secret: app.conf.session.secret,
     cookie: {
-      path: app.conf.prefix,
-      maxAge: 2 * 24 * 3600 // in seconds
+      path: app.conf.prefix + '/',
+      maxAge: 2 * 24 * 3600 * 1000 // in seconds
     },
     store: redis.getStore(express)
   }));

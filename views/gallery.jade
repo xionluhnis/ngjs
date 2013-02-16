@@ -7,4 +7,4 @@
       #content(ng-bind-html="content", ng-show="!!content")
     .switch(ng-click="toggleHidden()")
   nav
-    a.back.g(href="..", ng-class="{reduced: !!content}") ⇖ Back
+    a.back.g(href="..", ng-class="{reduced: !!content, simple: !hidden}") ⇖ Back

@@ -5,8 +5,10 @@
   #cover
 
   #index
-    h1 Gallery {{path}}
-    a.back(href="..") ⇖ Back
+    .title(ng-bind-html="content", ng-show="!!content", class="toload", ng-class="{loaded: contentLoaded}")
+    h1(ng-hide="content", class="toload", ng-class="{loaded: contentLoaded}") Gallery {{path}}
+    nav
+      a.back(href="..") ⇖ Back
     ul
       li(ng-repeat="route in routes")
         a(ng-href="{{route.url}}") {{route.name}}

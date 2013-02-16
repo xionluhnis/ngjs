@@ -20,37 +20,90 @@
       }
     }
     .g {
-      background: white;
-      background: rgba(255, 255, 255, 0.8);
+      .border-radius(0, 0, 5px);
+      display: block;
+      width: 100px;
+      height: 32px;
+      margin: 0;
+      padding: 0;
+      line-height: 32px;
+      text-align: center;
+      color: white;
+      color: rgba(255, 255, 255, 0.4);
+      background: gray;
+      background: rgba(150, 150, 150, 0.4);
       z-index: 2;
+      &.reduced {
+        width: 68px;
+        .border-radius();
+      }
       &:hover {
-        background: gray;
+        background: #9F9F9F;
+        color: white;
       }
     }
     #contentwrap {
       position: absolute;
+      background: transparent;
+      display: none;
+      &.full {
+        display: block;
+      }
       top: 0px;
       right: 0px;
       width: 30%;
       height: 100%;
-      overflow: auto;
-      #content {
-        color: #333;
-        padding: 20px 0;
-        
-        h1 {
-          color: white;
-          background: #333;
-          padding: 0 20px;
+      z-index:2;
+      .wrap {
+        height: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+        .box-shadow(-5px 0 5px rgba(0, 0, 0, 0.2));
+      }
+      &.hidden {
+        height: 32px;
+        width: 100px;
+        .switch, .switch:hover{
+          background: url(../images/arrow-west.png) no-repeat center center;
         }
-        h2 {
-          margin: 0 20px;
-          padding: 0 15px 0 0;
-          border-bottom: 1px solid silver;
+        .switch {
+          opacity: 0.42;
+          &:hover {
+            opacity: 1.0;
+          }
         }
-        p {
-          padding: 5px 20px 5px 30px;
+        .wrap {
+          display: none;
         }
+      }
+      .switch {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 32px;
+        height: 32px;
+        cursor: pointer;
+        background: url(../images/arrow-east.png) no-repeat center center;
+        &:hover {
+          background: url(../images/arrow-east-hover.png) no-repeat center center;
+        }
+      }
+    }
+    #content {
+      color: #333;
+      padding: 20px 0;
+      h1 {
+        color: white;
+        background: #333;
+        padding: 0 20px;
+      }
+      h2 {
+        margin: 0 20px;
+        padding: 0 15px 0 0;
+        border-bottom: 1px solid silver;
+      }
+      p {
+        padding: 5px 20px 5px 30px;
       }
     }
   }

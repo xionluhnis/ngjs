@@ -26,7 +26,7 @@ function AppController($scope, $routeParams, $location) {
 }
 AppController.$inject = ['$scope', '$routeParams', '$location'];
 
-function IndexController($scope, $routeParams, $location, Index) {
+function IndexController($scope, $routeParams, $location, Index, Metadata) {
   var path = $location.path();
   $scope.path = path.length <= 2 ? '' : path.substring(1, path.length - 1);
   Index.fetch({
@@ -38,6 +38,14 @@ function IndexController($scope, $routeParams, $location, Index) {
       $scope.images.push.apply($scope.images, route.images);
     });
     if (!$scope.$$phase) $scope.digest();
+  }, function () {});
+  // fetching title content
+  Metadata.getContent($location.path(), function (content) {
+    if (content) {
+      $scope.content = content;
+      if (!$scope.$$phase) $scope.$digest();
+    }
+    $scope.contentLoaded = true;
   }, function () {});
   var $bg;
   $scope.createBg = function () {
@@ -62,7 +70,7 @@ function IndexController($scope, $routeParams, $location, Index) {
     }
   });
 }
-IndexController.$inject = ['$scope', '$routeParams', '$location', 'Index'];
+IndexController.$inject = ['$scope', '$routeParams', '$location', 'Index', 'Metadata'];
 
 function GalleryController($scope, $routeParams, $location, Gallery, Metadata) {
   // fetching gallery images
@@ -96,6 +104,18 @@ function GalleryController($scope, $routeParams, $location, Gallery, Metadata) {
       showNav: true
     });
   };
+
+  // hiding the pane
+  $scope.toggleHidden = function(){
+    $scope.hidden = !$scope.hidden;
+    if(!$scope.$$phase) $scope.$digest();
+    $scope.$evalAsync(function(){
+      setTimeout(function(){
+        $g.zigfy('layout');
+      }, 0);
+    });
+  };
+
   // we clear when the view changes
   $scope.$on('$destroy', function () {
     if ($g) $g.zigfy('clear');
@@ -125,11 +145,9 @@ function EditController($scope, $location, $rootScope, Metadata) {
     $scope.response = res || '';
     $scope.status = status || 'ok';
     if ($scope.status == 'ok') {
-      setTimeout(function () {
-        $('.response').fadeOut(10000);
-      }, 2000);
+      $('.response').stop().show().css('opacity', 1).fadeIn().fadeOut(2000);
     } else {
-      $('.response').show();
+      $('.response').stop().css('opacity', 1).show();
     }
     if (!$scope.$$phase) $scope.$digest();
   };

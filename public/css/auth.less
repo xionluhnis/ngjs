@@ -25,12 +25,13 @@
     height: 60%;
     display: block;
     background: white;
+    .box-shadow(0 0 10px black);
 
     .view {
       padding: 0 20px;
       margin: 0;
       height: 100%;
-      border: 1px solid gray;
+      border: 1px solid black;
       background: white;
       overflow-y: auto;
 
@@ -45,6 +46,7 @@
         }
       }
       textarea {
+        border: 1px solid silver;
         margin: 0;
         padding: 0;
         width: 100%;
@@ -54,6 +56,15 @@
       button {
         position: relative;
         float: right;
+        border: 1px solid silver;
+        background: #eff5f5;
+        padding: 5px 10px;
+        margin: 5px;
+        color: gray;
+        cursor: pointer;
+        &:hover {
+          color: lighten(gray, 10%);
+        }
       }
       .response {
         padding: 5px;

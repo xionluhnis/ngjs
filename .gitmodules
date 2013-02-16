@@ -1,3 +1,6 @@
 [submodule "public/libs/zigfy"]
 	path = public/libs/zigfy
 	url = https://github.com/xionluhnis/zigfy.git
+[submodule "public/libs/less-elements"]
+	path = public/libs/less-elements
+	url = https://github.com/dmitryf/elements.git

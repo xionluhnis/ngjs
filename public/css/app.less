@@ -1,4 +1,7 @@
+/** less-elements **/
+@import "../libs/less-elements/elements.less";
 
+/** application css */
 html, body {
   margin: 0;
   padding: 0;
@@ -8,20 +11,28 @@ body {
   background: #eff5f5;
   font-family: Tahoma, sans-serif, Arial;
 
-  a.back {
+  nav {
+    z-index: 100;
     position: absolute;
     display: block;
     top: 0px;
     right: 0px;
-    padding: 5px;
-    color: gray;
-    text-decoration: none;
-    &:hover {
-      background: gray;
-      color: white;
+    * {
+      float: right;
+    }
+    a.back {
+      padding: 5px;
+      color: gray;
+      text-decoration: none;
+      &:hover {
+        background: gray;
+        color: white;
+      }
     }
   }
 }
+
+/** modules css */
 
 @import "index.less";
 @import "gallery.less";

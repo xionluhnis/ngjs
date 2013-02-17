@@ -65,6 +65,7 @@ REST API:
 Roadmap
 =======
   * Implement **inline metadata edition** using [JEditable](http://www.appelsiini.net/projects/jeditable) instead of a page overlay on top of the content (currently). This would change the way metadata is edited only.
+  * Remove Redis dependency by using simple Cookie sessions (why relying on redis if we don't really need it? Less is more.)
   * Implement **index** creation and deletion
   * Implement **gallery** creation, image upload and deletion
   * Implement **gallery** image manipulation (resize, auto-orient)

@@ -4,6 +4,3 @@
 [submodule "public/libs/less-elements"]
 	path = public/libs/less-elements
 	url = https://github.com/dmitryf/elements.git
-[submodule "public/libs/jquery.jeditable"]
-	path = public/libs/jquery.jeditable
-	url = https://github.com/tuupola/jquery_jeditable

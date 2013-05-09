@@ -1,0 +1,19 @@
+- if(auth.valid)
+  // authentified => we can edit
+  .wrap.metadata(ng-init="editingContent = false;", ng-dblclick="editingContent = true;", ng:switch="editingContent", ng-class="{editor: !!editingContent}")
+    #content(ng:switch-when="false", ng-bind-html="content", ng-show="!!content")
+    .view(ng:switch-when="true", ng-controller="MetadataController", ng-show="!!content", ng-init="what = 'editingContent'")
+      h1
+        | Edit [
+        span
+          = path.substring(6, path.length - 10)
+        | ]
+      textarea(ng-model="contentText", placeHolder="[No content yet]")
+      .response(ng-show="response", class="{{status}}") {{response}}
+      button(ng-click="save();") Save
+      button(ng-click="delete();") Delete
+      button(ng-click="cancel();") Cancel
+- else
+  // not authentified => no edit
+  .wrap
+    #content(ng-bind-html="content", ng-show="!!content")

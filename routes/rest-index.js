@@ -7,6 +7,7 @@ var router = require('./router.js');
 // colors
 var RED = app.util.RED;
 var RESET = app.util.RESET;
+var WHITE = app.util.WHITE;
 
 // limit of images
 var IMAGES_LIMIT = process.env.IMAGES_LIMIT || 20;
@@ -24,21 +25,21 @@ module.exports = {
    */
   findGalleryImages: function (galleryRoute, limit, callback) {
     var imgDir = path.join(app.conf.publicDir + galleryRoute, 'images');
-    fs.readdir(imgDir, function(err, files){
-      if(err){
+    fs.readdir(imgDir, function (err, files) {
+      if (err) {
         callback(err);
         return;
       }
       // filter files for images
-      files = files.filter(function(name){
+      files = files.filter(function (name) {
         return lcImgRx.test(name.toLowerCase());
       });
       // shuffle to keep random files
       app.util.shuffle(files);
       // we only keep under the limit
-      if(limit) files.length = Math.min(limit, files.length);
+      if (limit) files.length = Math.min(limit, files.length);
       // we map the images full route (not file path!)
-      callback(null, files.map(function(name){
+      callback(null, files.map(function (name) {
         return path.join(galleryRoute, 'images', name);
       }));
     });
@@ -136,7 +137,7 @@ module.exports = {
               else cb(null, {
                 name: fname,
                 url: app.conf.prefix + dirRoute,
-                images: images.map(function(imgRoute){
+                images: images.map(function (imgRoute) {
                   return app.conf.prefix + imgRoute;
                 })
               });
@@ -149,7 +150,37 @@ module.exports = {
       });
     });
   },
-  create: notImplemented,
+  create: function (req, res) {
+    var route = req.body.route;
+    if(!route) {
+      res.send(500, 'Invalid route!');
+      return;
+    }
+    // send inforation only if we are in an index
+    router.checkForCreation(route, function (err, data) {
+      if (err) {
+        console.log(RED + 'Error: %s' + RESET, err);
+        res.json({
+          result: false,
+          error: err
+        });
+        return;
+      }
+      console.log(WHITE + 'Data: ' + JSON.stringify(data) + RESET);
+      // it's all ok! let's create the index
+      fs.mkdir(data.dir, function (err) {
+        if (err) {
+          console.log(RED + 'Error:' + RESET, err);
+          res.json({
+            result: false,
+            error: err
+          });
+        } else res.json({
+          result: true
+        });
+      });
+    });
+  },
   edit: notImplemented,
   clear: notImplemented
 };

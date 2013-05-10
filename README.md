@@ -58,17 +58,18 @@ The current identity verification is made with [node-openid](https://github.com/
 Already done
 ============
 REST API:
-  * `/rest/index` - **GET** subdirectories and their type (see general uses of `routes/router.js`), as well as random images from underlying galleries
+  * `/rest/index` - **GET** subdirectories and their type (see general uses of `routes/router.js`), as well as random images from underlying galleries, and **POST** to create new indexes
   * `/rest/gallery` - **GET** gallery images (no thumbnails yet)
   * `/rest/metadata` - **GET**, **PUT** and **DELETE** (*POST* is not yet planned), so it's done!
+Edition:
+  * Inline text metadata edition and update
 
 Roadmap
 =======
-  * Implement **inline metadata edition** using [JEditable](http://www.appelsiini.net/projects/jeditable) instead of a page overlay on top of the content (currently). This would change the way metadata is edited only.
-  * Remove Redis dependency by using simple Cookie sessions (why relying on redis if we don't really need it? Less is more.)
-  * Implement **index** creation and deletion
+  * Implement **index** deletion
   * Implement **gallery** creation, image upload and deletion
-  * Implement **gallery** image manipulation (resize, auto-orient)
   * Implement **gallery** archives upload, linking and extraction
+  * Implement **gallery** image manipulation (resize, auto-orient)
+  * Remove Redis dependency by using simple Cookie sessions (why relying on redis if we don't really need it? Less is more.)
 
 That's it for now.

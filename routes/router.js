@@ -108,6 +108,34 @@ module.exports = {
   },
 
   /**
+   * Check whether a route is valid
+   * for creation of a new index or gallery
+   */
+  checkForCreation: function(routeStr, callback) {
+    module.exports.parse(routeStr, function(err, data){
+      if(err) callback(err);
+      else if(data.type != 'notfound') callback(new Error('The target route ' + routeStr + ' already exist!'));
+      else {
+        // we check that the tree is valid
+        // i.e. it has a parent node being an index
+        var parent = path.normalize(path.join(data.route, '..'));
+        module.exports.parse(parent, function(err, parentData){
+          if(err) callback(err);
+          else if(parentData.type != 'index') callback(new Error('The target is not a leaf node! Create the parent indexes first!'));
+          else callback(null, {
+            parent: {
+              route: parentData.route,
+              dir: parentData.dir
+            },
+            route: data.route,
+            dir: data.dir
+          }); // ok!
+        });
+      }
+    });
+  },
+
+  /**
    * Parse a route
    */
   parse: function (routeStr, callback) {

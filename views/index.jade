@@ -5,7 +5,7 @@
   #cover
 
   #index(ng-class="{home: path.length == 0}")
-    h1(ng-hide="content", class="toload", ng-class="{loaded: contentLoaded}") Gallery {{path}}
+    h1(ng-hide="content", class="toload", ng-class="{loaded: contentLoaded}", ng-dblclick="content = 'My new text ...'; editingContent = true;") Gallery {{path}}
     include metadata
     nav
       a.back(href="..") ⇖ Back

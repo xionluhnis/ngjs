@@ -247,7 +247,7 @@ function MetadataController($scope, $location, $rootScope, Metadata) {
 }
 MetadataController.$inject = ['$scope', '$location', '$rootScope', 'Metadata'];
 
-function EditController($scope, $location, $rootScope, Metadata) {
+function EditController($scope, $location, $rootScope, Metadata, Gallery, Index) {
   $scope.path = $location.path();
 
   // New ...
@@ -257,13 +257,29 @@ function EditController($scope, $location, $rootScope, Metadata) {
   };
 
   // New gallery
-  $scope.newGallery = function ( /*route, $event*/ ) {
-
+  $scope.newGallery = function ( route /*, $event*/ ) {
+    Gallery.create({
+      route: route
+    }, function(res){
+      if(res && res.result){
+        $location.path($location.path());
+      }
+    }, function(err){
+      alert('Error while creating the gallery: ' + err);
+    });
   };
 
   // New index
-  $scope.newIndex = function ( /*route, $event*/ ) {
-
+  $scope.newIndex = function ( route /*, $event*/ ) {
+    Index.create({
+      route: route
+    }, function(res){
+      if(res && res.result){
+        $location.path($location.path());
+      }
+    }, function(err){
+      alert('Error while creating the index: ' + err);
+    });
   };
 
   // Adding content
@@ -308,7 +324,7 @@ function EditController($scope, $location, $rootScope, Metadata) {
     $event.stopPropagation();
   };
 }
-EditController.$inject = ['$scope', '$location', '$rootScope', 'Metadata'];
+EditController.$inject = ['$scope', '$location', '$rootScope', 'Metadata', 'Gallery', 'Index'];
 
 function NotFoundController($scope, $routeParams, $location) {
   $scope.path = $location.path();

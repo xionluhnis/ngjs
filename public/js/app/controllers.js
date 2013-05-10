@@ -250,6 +250,10 @@ MetadataController.$inject = ['$scope', '$location', '$rootScope', 'Metadata'];
 function EditController($scope, $location, $rootScope, Metadata, Gallery, Index) {
   $scope.path = $location.path();
 
+  $scope.toVoid = function($event){
+    $event.stopPropagation();
+  };
+
   // New ...
   $scope.newXXX = function( /*route, $event */ ) {
     var dir = prompt('New name?');
@@ -257,9 +261,11 @@ function EditController($scope, $location, $rootScope, Metadata, Gallery, Index)
   };
 
   // New gallery
-  $scope.newGallery = function ( route /*, $event*/ ) {
+  $scope.newGallery = function ( input ) {
+    var files = input.files;
+    console.log("Files: " + JSON.stringify(files));
     Gallery.create({
-      route: route
+      route: $(input).data('route')
     }, function(res){
       if(res && res.result){
         $location.path($location.path());

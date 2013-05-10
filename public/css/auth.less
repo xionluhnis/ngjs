@@ -38,7 +38,7 @@
         display: inline-block;
         text-align: center;
         width: 504px;
-        a.action {
+        .action {
           display: block;
           padding: 0px;
           margin: 5px;
@@ -58,7 +58,7 @@
         }
       }
       .gallery {
-        a.action {
+        .action {
           background: rgba(150, 150, 255, 0.7);
           border: 1px solid rgb(150, 150, 255);
           &:hover {
@@ -71,7 +71,7 @@
         }
       }
       .index {
-        a.action {
+        .action {
           background: rgba(150, 255, 255, 0.7);
           border: 1px solid rgb(150, 255, 255);
           &:hover {
@@ -84,7 +84,7 @@
         }
       }
       .notfound {
-        a.action {
+        .action, form.action input[type=file]{
           width: 400px;
           height: 100px;
           line-height: 100px;
@@ -94,6 +94,25 @@
             background: rgba(100, 150, 100, 0.5);
             border: 1px solid rgb(80, 120, 80);
           }
+        }
+      }
+
+      form.action {
+        color: white;
+        overflow: hidden;
+        input[type=submit] {
+          display: none;
+        }
+        input[type=file] {
+          display: block;
+          position: relative;
+          top: -102px;
+          right: 0px;
+          cursor: pointer;
+          width: 100%;
+          height: 100%;
+          opacity: 0.0;
+          filter: alpha(opacity=0);
         }
       }
 

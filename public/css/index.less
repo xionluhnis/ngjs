@@ -32,11 +32,13 @@
       top: 50px;
       right: 80px;
       width: 40%;
-
       border-top: 5px solid rgb(48, 169, 241);
       padding: 0 20px 20px;
       color: white;
       background: rgba(0, 0, 0, 0.8);
+      &.home {
+        background: rgba(0, 0, 0, 0.8) url(../images/index_bg.png) bottom right no-repeat;
+      }
       z-index: 3;
 
       .toload {
@@ -45,12 +47,20 @@
           display: block;
         }
       }
-      .title div{
-        position: absolute;
-        right: 0px;
-        bottom: 0px;
+      #content {
+        padding: 0px;
+        h1 {
+          background: transparent;
+        }
+      }
+      .metadata.editor {
+        h1 {
+          text-align: left;
+        }
+      }
+      .metadata div{
+        position: relative;
         color: gray;
-        cursor: default;
       }
 
       ul {

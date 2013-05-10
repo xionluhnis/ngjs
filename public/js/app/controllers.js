@@ -40,13 +40,16 @@ function IndexController($scope, $routeParams, $location, Index, Metadata) {
     if (!$scope.$$phase) $scope.digest();
   }, function () {});
   // fetching title content
-  Metadata.getContent($location.path(), function (content) {
-    if (content) {
-      $scope.content = content;
-      if (!$scope.$$phase) $scope.$digest();
-    }
-    $scope.contentLoaded = true;
-  }, function () {});
+  var update = function(force){
+    Metadata.getContent($location.path(), function (content) {
+      if (content || force) {
+        $scope.content = content;
+        if (!$scope.$$phase) $scope.$digest();
+      }
+      $scope.contentLoaded = true;
+    }, function () {});
+  };
+  update(false);
   var $bg;
   $scope.createBg = function () {
     // we use zigfy!
@@ -63,6 +66,15 @@ function IndexController($scope, $routeParams, $location, Index, Metadata) {
       autoNav: true
     });
   };
+
+  // changing the update
+  $scope.$on('updateEditor', function (event, data) {
+    $scope[data.what] = data.value;
+    if (data.update) {
+      update(true);
+    } else if (!$scope.$$phase) $scope.$digest();
+  });
+
   // we clear when the view change
   $scope.$on('$destroy', function () {
     if ($bg) {
@@ -83,7 +95,7 @@ function GalleryController($scope, $routeParams, $location, Gallery, Metadata) {
     if (!$scope.$$phase) $scope.digest();
   }, function () {});
   // fetching gallery content
-  var update = function(forceUpdate){
+  var update = function (forceUpdate) {
     Metadata.getContent($location.path(), function (content) {
       if (content || forceUpdate) {
         $scope.content = content;
@@ -110,22 +122,22 @@ function GalleryController($scope, $routeParams, $location, Gallery, Metadata) {
   };
 
   // hiding the pane
-  $scope.toggleHidden = function(){
+  $scope.toggleHidden = function () {
     $scope.hidden = !$scope.hidden;
-    if(!$scope.$$phase) $scope.$digest();
-    $scope.$evalAsync(function(){
-      setTimeout(function(){
+    if (!$scope.$$phase) $scope.$digest();
+    $scope.$evalAsync(function () {
+      setTimeout(function () {
         $g.zigfy('layout');
       }, 0);
     });
   };
 
   // changing the update
-  $scope.$on('updateEditor', function(event, data){
+  $scope.$on('updateEditor', function (event, data) {
     $scope[data.what] = data.value;
-    if(data.update){
+    if (data.update) {
       update(true);
-    }else if (!$scope.$$phase) $scope.$digest();
+    } else if (!$scope.$$phase) $scope.$digest();
   });
 
   // we clear when the view changes
@@ -195,7 +207,11 @@ function MetadataController($scope, $location, $rootScope, Metadata) {
       else if (!data.result) error(data.message || 'Not saved');
       else {
         update(data.message || 'Saved!');
-        $scope.$emit('updateEditor', {what: $scope.what, value: false, update: true });
+        $scope.$emit('updateEditor', {
+          what: $scope.what,
+          value: false,
+          update: true
+        });
       }
       $rootScope.$digest();
     }, errorFunc('Not saved'));
@@ -203,6 +219,8 @@ function MetadataController($scope, $location, $rootScope, Metadata) {
 
   // reset metadata to null
   $scope.delete = function () {
+    var really = confirm('Do you really want to delete the text content?');
+    if (!really) return;
     Metadata.clear({
       route: $location.path()
     }, function (data) {
@@ -210,76 +228,78 @@ function MetadataController($scope, $location, $rootScope, Metadata) {
       else if (!data.result) error(data.message || 'Not deleted');
       else {
         update(data.message || 'Deleted');
-        $scope.$emit('updateEditor', {what: $scope.what, value: false, update: true });
+        $scope.$emit('updateEditor', {
+          what: $scope.what,
+          value: false,
+          update: true
+        });
       }
     }, errorFunc('Not deleted'));
   };
 
   // canceling things
-  $scope.cancel = function() {
-    $scope.$emit('updateEditor', {what: $scope.what, value: false});
+  $scope.cancel = function () {
+    $scope.$emit('updateEditor', {
+      what: $scope.what,
+      value: false
+    });
   };
 }
 MetadataController.$inject = ['$scope', '$location', '$rootScope', 'Metadata'];
 
 function EditController($scope, $location, $rootScope, Metadata) {
   $scope.path = $location.path();
-  // server response
-  $scope.response = null;
-  var update = function (res, status) {
-    $scope.response = res || '';
-    $scope.status = status || 'ok';
-    if ($scope.status == 'ok') {
-      $('.response').stop().show().css('opacity', 1).fadeIn().fadeOut(2000);
-    } else {
-      $('.response').stop().css('opacity', 1).show();
-    }
-    if (!$scope.$$phase) $scope.$digest();
-  };
-  var error = function (res) {
-    update(res, 'error');
-  };
-  var errorFunc = function (msg) {
-    return function (err) {
-      if (err) error(msg + ':\n' + err);
-      else error(msg);
-    };
-  };
-  // reset content
-  var resetContent = function (content) {
-    $scope.contentText = content || '';
-    update();
+
+  // New gallery
+  $scope.newGallery = function ( /*route, $event*/ ) {
+
   };
 
+  // New index
+  $scope.newIndex = function ( /*route, $event*/ ) {
 
-  // let's load the content!
-  Metadata.getRawContent($location.path(), resetContent, function () {
-    update('Error fetching content');
-  });
-
-  // save current modification
-  $scope.save = function () {
-    Metadata.edit({
-      route: $location.path()
-    }, {
-      content: $scope.contentText || ''
-    }, function (data) {
-      if (!data) error('Server error');
-      else if (!data.result) error(data.message || 'Not saved');
-      else update(data.message || 'Saved!');
-      $rootScope.$digest();
-    }, errorFunc('Not saved'));
   };
 
-  // reset metadata to null
-  $scope.delete = function () {
-    Metadata.clear({
-      route: $location.path()
-    }, function (data) {
-      if (!data) error('Server error');
-      else if (!data.result) error(data.message || 'Not deleted');
-      else update(data.message || 'Deleted');
-    }, errorFunc('Not deleted'));
+  // Adding content
+  $scope.addContent = function ( /*route, $event*/ ) {
+
+  };
+
+  // Editing pictures
+  $scope.editContent = function ( /*route, $event*/ ) {
+
+  };
+
+  // Metadata access
+  $scope.editMeta = function (route /*$event */ ) {
+    Metadata.getRawContent(route, function (content) {
+      if (content) alert('Double-click on the text to edit it');
+      else {
+        // we save a dummy text
+        Metadata.edit({
+          route: route
+        }, {
+          content: 'My new text...'
+        }, function (data) {
+          if (data && data.result) {
+            $rootScope.$broadcast('updateEditor', {
+              update: true
+            });
+          }
+          if (!$rootScope.$$phase) $rootScope.$digest();
+        }, function () {});
+      }
+    }, function () {
+      // error handling
+    });
+  };
+
+  // Delete content
+  $scope.delete = function (route, $event) {
+    var really = confirm('Do you really want to delete it?');
+    if (!really) return;
+    for (var key in $event) console.log('event.' + key + ': ' + $event[key]);
+    $event.stopPropagation();
   };
 }
 EditController.$inject = ['$scope', '$location', '$rootScope', 'Metadata'];

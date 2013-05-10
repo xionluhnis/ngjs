@@ -1,10 +1,23 @@
-.view(ng-controller="EditController")
-  h1
-    | Edit [
-    span
-      = path.substring(6, path.length - 10)
-    | ]
-  textarea(ng-model="contentText", placeHolder="[Nothing yet, create it!]")
-  .response(ng-show="response", class="{{status}}") {{response}}
-  button(ng-click="save()") Save
-  button(ng-click="delete()") Delete
+- if(auth.valid)
+  .view#edit(ng-controller="EditController", ng-model="qType", ng-init="qType='#{query.type}';", ng-switch="qType")
+    .gallery(ng-switch-when="gallery")
+      h1 Gallery
+      .grid
+        a.action.add-content(ng-click="addContent('#{query.route}', $event)") Add Pictures
+        a.action.edit-content(ng-click="editContent('#{query.route}', $event)") Edit Pictures
+        a.action.edit-metadata(ng-click="editMeta('#{query.route}', $event)", $event) Edit Text
+        a.action.delete(ng-click="delete('#{query.route}', $event)") Delete
+    .index(ng-switch-when="index")
+      h1 Index
+      .grid
+        a.action.edit(ng-click="editMeta('#{query.route}', $event)") Edit Text
+        a.action.delete(ng-click="delete('#{query.route}', $event)") Delete
+    .notfound(ng-switch-when="notfound")
+      h1 New
+      .grid
+        a.action.new-index(ng-click="newIndex('#{query.route}', $event)") Create Index
+        a.action.new-gallery(ng-click="newGallery('#{query.route}', $event)") Create Gallery
+    .otherwise(ng-switch-default)
+      h1 Nothing to edit
+- else
+  // nothing for you...

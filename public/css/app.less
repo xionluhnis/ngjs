@@ -30,11 +30,27 @@ body {
       }
     }
   }
+  .response {
+    padding: 5px;
+    color: gray;
+    width: 50%;
+    height: auto;
+    float: left;
+    &.error {
+      background: red;
+      color: white;
+    }
+    &.ok {
+      background: green;
+      color: white;
+    }
+  }
 }
 
 /** modules css */
 
 @import "index.less";
+@import "metadata.less";
 @import "gallery.less";
 @import "../libs/zigfy/css/zigfy.css";
 @import "auth.less";

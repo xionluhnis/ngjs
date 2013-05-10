@@ -4,9 +4,9 @@
 
   #cover
 
-  #index
-    .title(ng-bind-html="content", ng-show="!!content", class="toload", ng-class="{loaded: contentLoaded}")
+  #index(ng-class="{home: path.length == 0}")
     h1(ng-hide="content", class="toload", ng-class="{loaded: contentLoaded}") Gallery {{path}}
+    include metadata
     nav
       a.back(href="..") ⇖ Back
     ul

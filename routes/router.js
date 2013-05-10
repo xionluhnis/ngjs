@@ -239,6 +239,7 @@ module.exports = {
       if (!exists) {
         // we go to the "not found" page
         req.params[0] = 'notfound';
+        req.viewRoute = route;
         module.exports.jade(req, res);
         return;
       }
@@ -268,9 +269,18 @@ module.exports = {
     if(!route){
       res.send(500, 'Required route is missing!');
     }else{
-      req.params[0] = 'edit';
-      req.viewRoute = '/edit' + req.params[0];
-      module.exports.jade(req, res);
+      module.exports.parse(route, function(err, data){
+        if(err) {
+          console.log(RED + 'Invalid route.' + WHITE + route + RESET, err);
+          res.send(500, 'Invalid route!');
+        } else {
+          req.params[0] = 'edit';
+          req.query.route = data.route;
+          req.query.type = data.type;
+          req.viewRoute = '/edit' + req.params[0];
+          module.exports.jade(req, res);
+        }
+      });
     }
   },
 

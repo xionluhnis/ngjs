@@ -40,12 +40,12 @@
         width: 504px;
         a.action {
           display: block;
-          padding: 20px;
+          padding: 0px;
           margin: 5px;
-          line-height: 100px;
+          line-height: 140px;
           font-size: 32px;
-          width: 200px;
-          height: 100px;
+          width: 240px;
+          height: 140px;
           float: left;
           &.delete {
             background: rgba(150, 50, 50, 0.5);
@@ -78,10 +78,15 @@
             background: rgba(100, 150, 150, 0.5);
             border: 1px solid rgb(80, 120, 120);
           }
+          &.edit-content {
+            clear: left;
+          }
         }
       }
       .notfound {
         a.action {
+          width: 400px;
+          height: 100px;
           background: rgba(150, 255, 150, 0.7);
           border: 1px solid rgb(150, 255, 150);
           &:hover {

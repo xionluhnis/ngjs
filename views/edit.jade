@@ -10,7 +10,8 @@
     .index(ng-switch-when="index")
       h1 Index
       .grid
-        a.action.edit(ng-click="editMeta('#{query.route}', $event)") Edit Text
+        a.action.new-XXX(ng-click="newXXX('#{query.route}', $event)") Create ...
+        a.action.edit-content(ng-click="editMeta('#{query.route}', $event)") Edit Text
         a.action.delete(ng-click="delete('#{query.route}', $event)") Delete
     .notfound(ng-switch-when="notfound")
       h1 New

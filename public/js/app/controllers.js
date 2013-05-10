@@ -102,7 +102,7 @@ function GalleryController($scope, $routeParams, $location, Gallery, Metadata) {
         if (!$scope.$$phase) $scope.$digest();
       }
     }, function () {});
-  }
+  };
   update(false);
   var $g;
   $scope.createGallery = function () {
@@ -249,6 +249,12 @@ MetadataController.$inject = ['$scope', '$location', '$rootScope', 'Metadata'];
 
 function EditController($scope, $location, $rootScope, Metadata) {
   $scope.path = $location.path();
+
+  // New ...
+  $scope.newXXX = function( /*route, $event */ ) {
+    var dir = prompt('New name?');
+    $location.path($scope.path + dir + '/');
+  };
 
   // New gallery
   $scope.newGallery = function ( /*route, $event*/ ) {

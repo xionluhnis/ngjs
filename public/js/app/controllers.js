@@ -263,7 +263,27 @@ function EditController($scope, $location, $rootScope, Metadata, Gallery, Index)
   // New gallery
   $scope.newGallery = function ( input ) {
     var files = input.files;
-    console.log("Files: " + JSON.stringify(files));
+    if(!files || !files.length){
+      return; // do not try anything
+    }
+    var $form = $('#edit form');
+    $form.ajaxSubmit({
+      success: function(res){
+        if(res){
+          console.log(JSON.stringify(res));
+          // update page
+          $location.path($location.path());
+        }
+      },
+      error: function(err){
+        console.log('Error:' + err);
+      },
+      uploadProgress: function(event, pos, total, progress){
+        $form.find('.bar').css('width', progress + '%');
+      },
+      type: 'PUT'
+    });
+    /*
     Gallery.create({
       route: $(input).data('route')
     }, function(res){
@@ -273,6 +293,7 @@ function EditController($scope, $location, $rootScope, Metadata, Gallery, Index)
     }, function(err){
       alert('Error while creating the gallery: ' + err);
     });
+    */
   };
 
   // New index

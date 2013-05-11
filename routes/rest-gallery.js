@@ -33,13 +33,13 @@ module.exports = {
         images: function (cb) {
           // we get the gallery pictures
           fs.readdir(path.join(data.dir, 'images'), function (err, files) {
-            if(err){
+            if (err) {
               cb(err);
               return;
             }
             var images = files.filter(function (fname) {
               return lcImgRx.test(fname.toLowerCase());
-            }).map(function(name){
+            }).map(function (name) {
               return path.join(route, 'images', name);
             });
             cb(null, images);
@@ -50,12 +50,63 @@ module.exports = {
           cb(null, []);
         }
       }, function (err, result) {
-        if(err) console.log(RED + 'Error: ' + RESET, err);
+        if (err) console.log(RED + 'Error: ' + RESET, err);
         res.json(result);
       });
     });
   },
-  create: notImplemented,
-  edit: notImplemented,
+  init: function (route, callback) {
+    router.parse(route, function (err, data) {
+      if (err) callback(err);
+      else switch (data.type) {
+        case 'notfound':
+          // we create the directory
+          // as well as the required structure
+          //  => images directory, thumbs?
+          // XXX implement that!
+          /* fall-through */
+        case 'gallery':
+          callback(null, data);
+          break;
+        default:
+          callback(new Error('Invalid action: not a gallery'));
+          break;
+      }
+    });
+  },
+  create: function (req, res) {
+    var route = req.query.route;
+    if (!route) {
+      res.send(500, 'No route provided!');
+      return;
+    }
+    module.exports.init(route, function (err /*, data */) {
+      if (err) {
+        console.log(RED + 'Error: ' + RESET, err);
+        res.send(500, 'Error!');
+      } else res.json({
+        result: true
+      });
+    });
+  },
+  edit: function (req, res) {
+    var route = req.query.route;
+    if (!route) {
+      res.send(500, 'No route provided!');
+      return;
+    }
+    module.exports.init(route, function (err, data) {
+      if (err) {
+        console.log(RED + 'Error: ' + RESET, err);
+        res.send(500, 'Error!');
+      } else {
+        // implement the upload transfer
+        // - Transfer files
+        // - Unzip archives (keep only pictures)
+        // - Normalize pictures
+        // XXX do it!
+      }
+    });
+  },
   clear: notImplemented
 };

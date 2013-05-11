@@ -6,6 +6,7 @@
 //= require ../libs/angular/angular-sanitize.js
 
 //= require ../libs/zigfy/js/jquery.zigfy.js
+//= require ../libs/jquery.form/jquery.form.js
 
 //= require ./app/main.js
 //= require ./app/services.js

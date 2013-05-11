@@ -17,10 +17,11 @@
       h1 New
       .grid
         a.action.new-index(ng-click="newIndex('#{query.route}', $event)") Create Index
-        form.action.new-gallery(action="/rest/gallery", metod="put", enctype="multipart/form-data", ng-click="toVoid($event)")
+        form.action.new-gallery(action="/rest/gallery?route=#{query.route}", metod="put", enctype="multipart/form-data", ng-click="toVoid($event)")
           | Create Gallery
           input(type="file", multiple, data-route="#{query.route}", name="files", ng-model="files", onchange="angular.element(this).scope().newGallery(this);")
           input(type="submit")
+          .bar
     .otherwise(ng-switch-default)
       h1 Nothing to edit
 - else
